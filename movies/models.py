@@ -38,7 +38,7 @@ class Review(models.Model):
     time_edit = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL) #need to rebuild for SET_DEFAULT
+    user = models.ForeignKey(User, on_delete=models.CASCADE) #need to rebuild for SET_DEFAULT
     text = models.TextField() #need validator
     time_in = models.DateTimeField(auto_now_add=True)
     time_edit = models.DateTimeField(auto_now=True)
