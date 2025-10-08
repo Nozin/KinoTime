@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 def create_deleted_user(apps, schema_editor):
     User.objects.get_or_create(username='deleted_user', defaults={'password': '!'})
 
+def remove_deleted_user(apps, schema_editor):
+    User.objects.filter(username='deleted_user').delete()
+
 
 class Migration(migrations.Migration):
 
@@ -14,5 +17,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_deleted_user),
+        migrations.RunPython(create_deleted_user, remove_deleted_user),
     ]

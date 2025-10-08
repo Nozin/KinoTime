@@ -2,13 +2,23 @@
 
 from django.db import migrations
 from django.contrib.auth.models import User
+import json
 
 def create_movie_categories(apps, schema_editor):
     Category = apps.get_model("movies", "Category")
-    from movies.fixtures.db_test_data import CATEGORIES
-
+    with open('movies/fixtures/categories.json', 'r', encoding='utf-8') as f:
+        CATEGORIES = json.loads(f.read())
     for name in CATEGORIES:
         Category.objects.get_or_create(name=name)
+def remove_movie_categories(apps, schema_editor):
+    Category = apps.get_model("movies", "Category")
+    with open('movies/fixtures/categories.json', 'r', encoding='utf-8') as f:
+        CATEGORIES = json.loads(f.read())
+    Category.objects.filter(name__in=CATEGORIES).delete()
+
+def create_authors(apps, schema_editor):
+    Author = apps.get_model("movies", "Author")
+
 
 
 class Migration(migrations.Migration):
@@ -18,5 +28,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_movie_categories),
+        migrations.RunPython(create_movie_categories, remove_movie_categories),
     ]
