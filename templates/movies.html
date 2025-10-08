@@ -11,7 +11,11 @@
     {% endblock title %}
 
     {% block content %}
-
+        	{% if movies %}
+                {{movies}}
+			{% else %}
+				<h1>Список фильмов пуст</h1>
+			{% endif %}
     {% endblock content %}
 </body>
 </html>

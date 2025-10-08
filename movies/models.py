@@ -23,7 +23,7 @@ class Movie(models.Model):
     type = models.CharField()
     name = models.CharField(max_length=120, null=False)
     rating = models.FloatField(max_length=10)
-    year = models.DateField()
+    year = models.DateField(null=True)
     description = models.TextField(
         blank=False,
         null=False,
