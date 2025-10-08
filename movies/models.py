@@ -19,7 +19,6 @@ class Movie(models.Model):
         ('CR', cartoon),
     ]
 
-    genre = models.CharField()
     type = models.CharField(max_length=2, choices=GENRES)
     poster = models.ImageField(upload_to = 'image_photo/', blank=True, null=True)
     name = models.CharField(max_length=120, null=False)
