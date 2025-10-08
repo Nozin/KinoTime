@@ -16,10 +16,6 @@ def remove_movie_categories(apps, schema_editor):
         CATEGORIES = json.loads(f.read())
     Category.objects.filter(name__in=CATEGORIES).delete()
 
-def create_authors(apps, schema_editor):
-    Author = apps.get_model("movies", "Author")
-
-
 
 class Migration(migrations.Migration):
 
