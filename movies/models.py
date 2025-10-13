@@ -34,17 +34,16 @@ class Movie(models.Model):
 class MovieCategory(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
+def get_deleted_user(self):
+    return User.objects.get(username='deleted_user')
 class Review(models.Model):
-    def get_deleted_user(self):
-        return User.objects.get(username='deleted_user')
 
     author = models.ForeignKey(
         Author,
         on_delete=models.SET_DEFAULT,
         default=get_deleted_user
     )
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, blank=False, null=False)
     title = models.CharField(max_length=150, null=False)
     text = models.TextField(
         null=False,
