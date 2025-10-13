@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='comment',
             name='user',
-            field=models.ForeignKey(default=movies.models.Comment.get_deleted_user, on_delete=django.db.models.deletion.SET_DEFAULT, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default=movies.models.get_deleted_user, on_delete=django.db.models.deletion.SET_DEFAULT, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='movie',
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='author',
-            field=models.ForeignKey(default=movies.models.Review.get_deleted_user, on_delete=django.db.models.deletion.SET_DEFAULT, to='movies.author'),
+            field=models.ForeignKey(default=movies.models.get_deleted_user, on_delete=django.db.models.deletion.SET_DEFAULT, to='movies.author'),
         ),
         migrations.AlterField(
             model_name='review',

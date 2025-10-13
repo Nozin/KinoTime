@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MaxLengthValidator
+from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -22,7 +22,12 @@ class Movie(models.Model):
     type = models.CharField(max_length=2, choices=GENRES)
     poster = models.ImageField(upload_to = 'image_photo/', blank=True, null=True)
     name = models.CharField(max_length=120, null=False)
-    rating = models.FloatField(max_length=10)
+    rating = models.FloatField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(10),
+        ]
+    )
     year = models.DateField(null=True)
     description = models.TextField(
         blank=False,
@@ -34,7 +39,7 @@ class Movie(models.Model):
 class MovieCategory(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-def get_deleted_user(self):
+def get_deleted_user():
     return User.objects.get(username='deleted_user')
 class Review(models.Model):
 
