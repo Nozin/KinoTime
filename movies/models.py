@@ -26,7 +26,8 @@ class Movie(models.Model):
         validators=[
             MinValueValidator(0),
             MaxValueValidator(10),
-        ]
+        ],
+        null=True,
     )
     year = models.DateField(null=True)
     description = models.TextField(
