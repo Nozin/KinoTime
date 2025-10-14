@@ -25,5 +25,28 @@
             <h2 class="centered" >{{movie.description}}</h2>
         {% endif %}
     {% endblock content %}
+    {% block reviews %}
+        {% if reviews %}
+            <div class="reviews-container">
+                {% for r in reviews %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-author">
+                                <strong>{{ r.author.user.username }}</strong>
+                            </div>
+                            <div class="review-title">
+                                <h3>{{ r.title }}</h3>
+                            </div>
+                        </div>
+                        <div class="review-body">
+                            <p>{{ r.text }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-reviews">Пока нет отзывов 😔</p>
+        {% endif %}
+    {% endblock reviews %}
 </body>
 </html>
