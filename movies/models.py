@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
+from django.db.models import Sum
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -36,6 +37,10 @@ class Movie(models.Model):
         validators=[MaxLengthValidator(5000, message="Рецензия не может быть длиннее 5000 символов")]
     )
     category = models.ManyToManyField(Category, through='MovieCategory')
+    def update_rating(self):
+        self.rating=Review.objects.filter(movie=self).aggregate(Sum('grade'))['grade__sum']/Review.objects.filter(movie=self).count()
+        self.save()
+        return self.rating
 
 class MovieCategory(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
@@ -58,6 +63,13 @@ class Review(models.Model):
     )
     time_in = models.DateTimeField(auto_now_add=True)
     time_edit = models.DateTimeField(auto_now=True)
+    grade = models.FloatField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(10),
+        ],
+        null=True,
+    )
 
 class Comment(models.Model):
     def get_deleted_user(self):
