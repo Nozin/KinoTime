@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends 'default/default_page.html' %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
     {% block title %}
-
     {% endblock title %}
 
     {% block content %}
         {% if movies %}
-        {% load static %}
+
             {% for m in movies %}
                 <div class="col-sm-6 col-md-3">
                     <div class="latest-movie">
                         {% if m.poster %}
-                            <a href="#"><img src="{{ m.poster.url }}" alt="{{ m.title }}"></a>
+                            <a href="{% url 'movie_detail' m.id %}"><img src="{{ m.poster.url }}" alt="{{ m.title }}"></a>
                         {% else %}
-                            <a href="#"><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ m.title }}"></a>
+                            <a href="{% url 'movie_detail' m.id %}"><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ m.title }}"></a>
                         {% endif %}
-                        <a href="{{m.id}}/" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
+                        <a href="{% url 'movie_detail' m.id %}" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
                             <h2 class="centered" >{{ m.name }}</h2>
                         </a>
                     </div>

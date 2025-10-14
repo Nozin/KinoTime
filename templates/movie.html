@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'default/default_page.html' %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% block title %}
+        {% if movie %}
+            <h2 class="centered" >{{movie.name}}</h2>
+        {% endif %}
+    {% endblock title %}
+
+    {% block content %}
+        {% if movie %}
+            {% if movie.poster %}
+                <a><img src="{{ m.poster.url }}" alt="{{ movie.title }}"></a>
+            {% else %}
+                <a><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ movie.title }}"></a>
+            {% endif %}
+            <h2 class="centered" >Год выпуска: {{movie.year|date:'Y'}}</h2>
+            <h2 class="centered" >{{movie.description}}</h2>
+        {% endif %}
+    {% endblock content %}
+</body>
+</html>
