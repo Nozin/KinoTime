@@ -23,6 +23,7 @@
                         {% endif %}
                         <a href="{% url 'movie_detail' m.id %}" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
                             <h2 class="centered" >{{ m.name }}</h2>
+                            <h4 class="centered" >{{ m.rating }}</h4>
                         </a>
                     </div>
                 </div>
