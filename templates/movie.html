@@ -18,7 +18,7 @@
     {% block content %}
         {% if movie %}
             {% if movie.poster %}
-                <a><img src="{{ m.poster.url }}" alt="{{ movie.title }}"></a>
+                <img src="{{ m.poster.url }}" alt="{{ m.title }}">
             {% else %}
                 <a><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ movie.title }}"></a>
             {% endif %}

@@ -16,3 +16,9 @@ class MovieDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['reviews'] = Review.objects.filter(movie=self.object)#self.review_set.all() #Review.objects.order_by('-dataCreation').filter(commentPost_id=self.id)
         return context
+
+class ReviewList(ListView):
+    model = Review
+    ordering = 'time_in'
+    template_name = 'reviews.html'
+    context_object_name = 'reviews'
