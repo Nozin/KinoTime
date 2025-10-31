@@ -2,6 +2,7 @@
 <html lang="en">
 {% extends 'default/default_page.html' %}
 {% load static %}
+{% load custom_filters %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -23,7 +24,7 @@
             {% endif %}
             <h2 class="centered" >Год выпуска: {{movie.year|date:'Y'}}</h2>
             <h2 class="centered" >Рейтинг: {{movie.rating}}</h2>
-            <h2 class="centered" >{{movie.description}}</h2>
+            <h2 class="centered" >{{movie.description|review_censor}}</h2>
         {% endif %}
     {% endblock content %}
     {% block reviews %}

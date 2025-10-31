@@ -7,6 +7,7 @@
 
 		<title>Movie Review</title>
 		{% load static %}
+		{% load custom_tags %}
 		<!-- Loading third party fonts -->
 		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
 		<link href="{% static 'fonts/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
@@ -30,8 +31,13 @@
 						<img src="{% static 'images/logo.png' %}" alt="" class="logo">
 						<div class="logo-copy">
 							<h1 class="site-title">KinoTime</h1>
-							<small class="site-description">Обзор новвинок кино и не только</small>
+							<small class="site-description">Обзоры новвинок кино и не только</small>
+							<small>{% current_datetime '%b %d %Y' %}</small>
+
+
+
 						</div>
+
 					</a> <!-- #branding -->
 
 					<div class="main-navigation">
@@ -43,13 +49,18 @@
 <!--							<li class="menu-item"><a href="contact.html">Контакты</a></li>-->
 						</ul> <!-- .menu -->
 
+
 						<form action="#" class="search-form">
 							<input type="text" placeholder="Search...">
 							<button><i class="fa fa-search"></i></button>
 						</form>
+
 					</div> <!-- .main-navigation -->
 
+
 					<div class="mobile-navigation"></div>
+
+
 				</div>
 			</header>
 			<main class="main-content">
