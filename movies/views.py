@@ -7,6 +7,7 @@ class MovieList(ListView):
     ordering = 'year'
     template_name = 'movies.html'
     context_object_name = 'movies'
+    paginate_by = 1
 
 class MovieDetail(DetailView):
     model = Movie
