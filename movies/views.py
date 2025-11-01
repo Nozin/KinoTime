@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from .models import Movie, Review
+from .filters import MovieFilter
 
 class MovieList(ListView):
     model = Movie
@@ -8,6 +9,17 @@ class MovieList(ListView):
     template_name = 'movies.html'
     context_object_name = 'movies'
     paginate_by = 1
+
+    def get_queryset(self):
+        # Получаем обычный запрос
+        queryset = super().get_queryset()
+        self.filterset = MovieFilter(self.request.GET, queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
 
 class MovieDetail(DetailView):
     model = Movie

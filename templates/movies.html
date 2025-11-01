@@ -10,7 +10,13 @@
 </head>
 <body>
     {% block title %}
+        <form action="" method="get">
+            {# filterset автоматически формирует форму #}
+            {{ filterset.form.as_p }}
+            <input type="submit" value="Найти" />
+        </form>
     {% endblock title %}
+
 
     {% block content %}
         {% if movies %}
