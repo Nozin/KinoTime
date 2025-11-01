@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from django.db.models import Sum
+from django.urls import reverse_lazy, reverse
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -44,6 +45,8 @@ class Movie(models.Model):
         self.rating=Review.objects.filter(movie=self).aggregate(Sum('grade'))['grade__sum']/Review.objects.filter(movie=self).count()
         self.save()
         return self.rating
+    def get_absolute_url(self):
+        return reverse('movie_list')
 
 class MovieCategory(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)

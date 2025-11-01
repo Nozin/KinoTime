@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Movie, Review
 from .filters import MovieFilter
 from .forms import MovieForm
+from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse_lazy, reverse
 
 class MovieList(ListView):
     model = Movie
@@ -32,6 +35,11 @@ class MovieDetail(DetailView):
         return context
 
 class MovieCreate(CreateView):
+    model = Movie
+    form_class = MovieForm
+    template_name = 'movie_create.html'
+
+class MovieUpdate(UpdateView):
     model = Movie
     form_class = MovieForm
     template_name = 'movie_create.html'
