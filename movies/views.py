@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Movie, Review
 from .filters import MovieFilter
+from .forms import MovieForm
 
 class MovieList(ListView):
     model = Movie
@@ -29,6 +30,11 @@ class MovieDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['reviews'] = Review.objects.filter(movie=self.object)#self.review_set.all() #Review.objects.order_by('-dataCreation').filter(commentPost_id=self.id)
         return context
+
+class MovieCreate(CreateView):
+    model = Movie
+    form_class = MovieForm
+    template_name = 'movie_create.html'
 
 class ReviewList(ListView):
     model = Review

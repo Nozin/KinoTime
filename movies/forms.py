@@ -23,11 +23,11 @@ class MovieForm(forms.ModelForm):
             raise ValidationError({
                 "description": "Название не может совпадать с описанием"
             })
-        if name in not None and name[0].islower():
+        if name is not None and name[0].islower():
             raise ValidationError({
                 "description": "Название должно начинаться с большой буквы"
             })
-        if description in not None and description[0].islower():
+        if description is not None and description[0].islower():
             raise ValidationError({
                 "description": "Описание должно начинаться с большой буквы"
             })
