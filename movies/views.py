@@ -8,7 +8,7 @@ class MovieList(ListView):
     ordering = 'year'
     template_name = 'movies.html'
     context_object_name = 'movies'
-    paginate_by = 1
+    paginate_by = 20
 
     def get_queryset(self):
         # Получаем обычный запрос
