@@ -7,16 +7,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
-    {% block title %}
-        <form action="" method="get">
-            {# filterset автоматически формирует форму #}
-            {{ filterset.form.as_p }}
-            <input type="submit" value="Найти" />
-        </form>
-    {% endblock title %}
+    {% block search %}
+        <div class="search-form">
+            <button id="open-search" type="button"><i class="fa fa-search"></i></button>
+        </div>
 
+        <div id="search-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" method="get">
+                {# filterset автоматически формирует форму #}
+                {{ filterset.form.as_p }}
+                <input type="submit" value="Найти" />
+            </form>
+        </div>
+        </div>
+    {% endblock search %}
 
     {% block content %}
         {% if movies %}

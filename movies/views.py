@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Movie, Review
 from .filters import MovieFilter
 from .forms import MovieForm
@@ -43,6 +43,11 @@ class MovieUpdate(UpdateView):
     model = Movie
     form_class = MovieForm
     template_name = 'movie_create.html'
+
+class MovieDelete(DeleteView):
+    model = Movie
+    template_name = 'movie_delete.html'
+    context_object_name = 'movie'
 
 class ReviewList(ListView):
     model = Review

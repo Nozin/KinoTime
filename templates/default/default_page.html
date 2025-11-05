@@ -16,14 +16,15 @@
 		<link rel="stylesheet" href="{% static 'style.css' %}">
 
 		<!--[if lt IE 9]>
-		<script src="{% static 'js/ie-support/html5.js' %}"></script>
+		<script src="{% static 'js/ie-support/search_button.js' %}"></script>
 		<script src="{% static 'js/ie-support/respond.js' %}"></script>
+
 		<![endif]-->
 
 	</head>
 
-
 	<body>
+	<script src="{% static 'js/my_scripts/search_button.js' %}"></script> <!--script for search button-->
 		<div id="site-content">
 			<header class="site-header">
 				<div class="container">
@@ -49,13 +50,8 @@
 
 <!--							<li class="menu-item"><a href="contact.html">Контакты</a></li>-->
 						</ul> <!-- .menu -->
-
-
-						<form action="#" class="search-form">
-							<input type="text" placeholder="Search...">
-							<button><i class="fa fa-search"></i></button>
-						</form>
-
+						{% block search %}
+						{% endblock search %}
 					</div> <!-- .main-navigation -->
 
 
