@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'default/default_page.html' %}
+{% load static %}
+{% load custom_filters %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        {% block title %}
+            <h2 class="centered" >Личный кабинет</h2>
+        {% endblock title %}
+
+        {% block content %}
+            {% if user.username %}
+                <h2 class="centered" >Логин - {{user.username}}</h2>
+            {% endif %}
+            {% if user.email %}
+                <h2 class="centered" >Логин - {{user.email}}</h2>
+            {% endif %}
+    <h2 class="centered" >Логин - {{reviews}}</h2>
+        {% endblock content %}
+    {% else %}
+        <h2 class="centered" >Вы не вошли в аккаунт</h2>
+    {% endif %}
+{% block reviews %}
+    {% if reviews %}
+        <div class="reviews-container">
+            {% for r in reviews %}
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-author">
+                            <strong>{{ r.author.user.username }}</strong>
+                        </div>
+                        <div class="review-title">
+                            <h3>{{ r.title }}</h3>
+                        </div>
+                        <div class="review-grade">
+                            <h3>{{ r.grade }}</h3>
+                        </div>
+                    </div>
+                    <div class="review-body">
+                        <p>{{ r.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-reviews">У вас нет рецензий</p>
+    {% endif %}
+{% endblock reviews %}
+</body>
+</html>
