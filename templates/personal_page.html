@@ -20,7 +20,9 @@
             {% if user.email %}
                 <h2 class="centered" >Логин - {{user.email}}</h2>
             {% endif %}
-    <h2 class="centered" >Логин - {{reviews}}</h2>
+            {% if not in_author_group and not is_author_in_model %}
+                <button> <a href="{% url 'become_author' %}"> Стать автором</a> </button>
+            {% endif %}
         {% endblock content %}
     {% else %}
         <h2 class="centered" >Вы не вошли в аккаунт</h2>

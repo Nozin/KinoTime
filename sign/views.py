@@ -17,7 +17,7 @@ class PersonalPage(LoginRequiredMixin, TemplateView):
         context['in_author_group'] = self.request.user.groups.filter(name='author').exists()
         context['is_author_in_model'] = Author.objects.filter(user=self.request.user).exists()
         if context['is_author_in_model'] and context['in_author_group']:
-            context["reviews"] = Review.objects.filter(author=self.request.user)
+            context["reviews"] = Review.objects.filter(author=Author.objects.get(user=self.request.user))
         return context
 @login_required
 def become_author(request):
