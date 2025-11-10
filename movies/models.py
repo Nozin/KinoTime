@@ -41,6 +41,7 @@ class Movie(models.Model):
         validators=[MaxLengthValidator(5000, message="Рецензия не может быть длиннее 5000 символов")]
     )
     category = models.ManyToManyField(Category, through='MovieCategory')
+    subscribers = models.ManyToManyField(User, through='MovieSubscriber', related_name='subscribed_movies')
     def update_rating(self):
         self.rating=Review.objects.filter(movie=self).aggregate(Sum('grade'))['grade__sum']/Review.objects.filter(movie=self).count()
         self.save()
@@ -48,9 +49,14 @@ class Movie(models.Model):
     def get_absolute_url(self):
         return reverse('movie_list')
 
+class MovieSubscriber(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    subscriber = models.ForeignKey(User, on_delete=models.CASCADE)
+
 class MovieCategory(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
 def get_deleted_user():
     return User.objects.get(username='deleted_user')
 class Review(models.Model):
