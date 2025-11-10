@@ -4,7 +4,7 @@ from .models import Movie, Review
 from .filters import MovieFilter
 from .forms import MovieForm
 from django.shortcuts import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
@@ -34,6 +34,18 @@ class MovieDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['reviews'] = Review.objects.filter(movie=self.object)#self.review_set.all() #Review.objects.order_by('-dataCreation').filter(commentPost_id=self.id)
         return context
+def movie_subscribe(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    if not movie.subscribers.filter(id=request.user.id).exists():
+        movie.subscribers.add(request.user)
+    return redirect('movie_detail', pk)
+
+def movie_unsubscribe(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    if movie.subscribers.filter(id=request.user.id).exists():
+        movie.subscribers.remove(request.user)
+    return redirect('movie_detail', pk)
+
 
 class MovieCreate(PermissionRequiredMixin, CreateView):
     permission_required = (
