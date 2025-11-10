@@ -48,6 +48,8 @@
 							<li class="menu-item"><a href="{% url 'review_list' %}">Обзоры</a></li>
 							{% if user.is_authenticated %}
 								<li class="menu-item"><a href="{% url 'personal_page' %}">{{user.username}}</a></li>
+							{% else %}
+								<li class="menu-item"><a href="{% url 'account_login' %}">Войти</a></li>
 							{% endif %}
 
 <!--							<li class="menu-item"><a href="contact.html">Контакты</a></li>-->

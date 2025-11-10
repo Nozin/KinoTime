@@ -6,6 +6,7 @@ from .forms import MovieForm
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 class MovieList(ListView):
     model = Movie
@@ -34,17 +35,32 @@ class MovieDetail(DetailView):
         context['reviews'] = Review.objects.filter(movie=self.object)#self.review_set.all() #Review.objects.order_by('-dataCreation').filter(commentPost_id=self.id)
         return context
 
-class MovieCreate(CreateView):
+class MovieCreate(PermissionRequiredMixin, CreateView):
+    permission_required = (
+        'movie.view_movie',
+        'movie.add_movie',
+    )
+    raise_exception = True
     model = Movie
     form_class = MovieForm
     template_name = 'movie_create.html'
 
-class MovieUpdate(UpdateView):
+class MovieUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = (
+        'movie.view_movie',
+        'movie.change_movie',
+    )
+    raise_exception = True
     model = Movie
     form_class = MovieForm
     template_name = 'movie_create.html'
 
-class MovieDelete(DeleteView):
+class MovieDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = (
+        'movie.view_movie',
+        'movie.delete_movie',
+    )
+    raise_exception = True
     model = Movie
     template_name = 'movie_delete.html'
     context_object_name = 'movie'
