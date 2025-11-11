@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load i18n %}
+    {% load account %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Account Activation" %}</title>
+</head>
+<body>
+    <h1>{% blocktrans with username=user.username %}Thank you for registering {{ username }}!{% endblocktrans %}</h1>
+    <h3>
+        {% blocktrans %}Please follow{% endblocktrans %}
+        <a href="{{ activate_url }}">{% trans "the link" %}</a>
+        {% blocktrans %}to activate your account{% endblocktrans %}
+    </h3>
+</body>
+</html>

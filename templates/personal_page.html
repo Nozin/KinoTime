@@ -23,6 +23,12 @@
             {% if not in_author_group and not is_author_in_model %}
                 <button> <a href="{% url 'become_author' %}"> Стать автором</a> </button>
             {% endif %}
+            {% if user.is_authenticated %}
+                <form action="{% url 'account_logout' %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Выйти">
+                </form>
+            {% endif %}
         {% endblock content %}
     {% else %}
         <h2 class="centered" >Вы не вошли в аккаунт</h2>
