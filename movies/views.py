@@ -49,8 +49,8 @@ def movie_unsubscribe(request, pk):
 
 class MovieCreate(PermissionRequiredMixin, CreateView):
     permission_required = (
-        'movie.view_movie',
-        'movie.add_movie',
+        'movies.view_movie',
+        'movies.add_movie',
     )
     raise_exception = True
     model = Movie
@@ -59,8 +59,8 @@ class MovieCreate(PermissionRequiredMixin, CreateView):
 
 class MovieUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = (
-        'movie.view_movie',
-        'movie.change_movie',
+        'movies.view_movie',
+        'movies.change_movie',
     )
     raise_exception = True
     model = Movie
@@ -69,8 +69,8 @@ class MovieUpdate(PermissionRequiredMixin, UpdateView):
 
 class MovieDelete(PermissionRequiredMixin, DeleteView):
     permission_required = (
-        'movie.view_movie',
-        'movie.delete_movie',
+        'movies.view_movie',
+        'movies.delete_movie',
     )
     raise_exception = True
     model = Movie

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import environ
+from django.core.exceptions import ImproperlyConfigured
 
 env =environ.Env(
     DEBUG=(bool, False),
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'movies',
+    'movies.apps.MoviesConfig',
     'django_filters',
     'sign',
     'allauth',
@@ -175,9 +176,21 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 
 ACCOUNT_FORMS = {'signup': 'sign.forms.BasicSignupForm'}
 
-EMAIL_HOST=env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_HOST_USER=env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL=env('DEFAULT_FROM_EMAIL')
-EMAIL_USE_SSL=env('EMAIL_USE_SSL')
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env.int('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+EMAIL_USE_SSL = env.bool('EMAIL_USE_SSL')
+
+
+MANAGERS = [('media.user1', 'media.user1@yandex.ru')]
+
+
+# managers_raw = env.list('MANAGERS', default=[])
+# MANAGERS = [tuple(m.split(':', 1)) for m in managers_raw if ':' in m]
+# if not all(len(m) == 2 for m in MANAGERS):
+#     raise ImproperlyConfigured("MANAGERS must contain pairs like Name:email")

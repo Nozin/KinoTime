@@ -16,11 +16,22 @@
     {% endblock title %}
 
     {% block content %}
+    <div>
         {% if movie %}
+            <div>
             {% if movie.poster %}
                 <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="300" height="400">
             {% else %}
                 <a><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ movie.title }}"></a>
+            {% endif %}
+            </div>
+            {% if user|has_group:'moderator' %}
+            <a href="{% url 'movie_update' movie.pk %}">
+                <button type="button">Изменить</button>
+            </a>
+            <a href="{% url 'movie_delete' movie.pk %}">
+                <button type="button">Удалить</button>
+            </a>
             {% endif %}
             <h2 class="centered" >Год выпуска: {{movie.year|date:'Y'}}</h2>
             <h2 class="centered" >Рейтинг: {{movie.rating}}</h2>
@@ -39,6 +50,7 @@
             {% endif %}
 
         {% endif %}
+    </div>
     {% endblock content %}
     {% block reviews %}
         {% if reviews %}
