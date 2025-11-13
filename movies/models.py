@@ -49,6 +49,7 @@ class Movie(models.Model):
     def get_absolute_url(self):
         return reverse('movie_list')
 
+
 class MovieSubscriber(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     subscriber = models.ForeignKey(User, on_delete=models.CASCADE)

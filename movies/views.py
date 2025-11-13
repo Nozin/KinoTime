@@ -76,6 +76,8 @@ class MovieDelete(PermissionRequiredMixin, DeleteView):
     model = Movie
     template_name = 'movie_delete.html'
     context_object_name = 'movie'
+    def get_success_url(self):
+        return reverse_lazy('movie_list')
 
 class ReviewList(ListView):
     model = Review
