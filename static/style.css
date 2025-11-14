@@ -584,6 +584,34 @@ ul.arrow {
     color: #f00;
 }
 
+.movie-poster {
+    width: 200px;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+
+.movie-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.latest-movie {
+    display: flex;
+    flex-wrap: wrap;     /* чтобы переносились на следующую строку */
+    gap: 20px;           /* расстояние между карточками */
+}
+
+.latest-movie > div {
+    flex: 1;             /* делит ширину поровну */
+    min-width: 250px;    /* предотвращает слишком узкие блоки */
+}
+
 .container {
   margin-right: auto;
   margin-left: auto;

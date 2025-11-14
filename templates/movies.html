@@ -33,15 +33,20 @@
             {% for m in movies %}
                 <div class="col-sm-6 col-md-3">
                     <div class="latest-movie">
-                        {% if m.poster %}
-                            <a href="{% url 'movie_detail' m.id %}"><img src="{{ m.poster.url }}" alt="{{ m.title }}"></a>
-                        {% else %}
-                            <a href="{% url 'movie_detail' m.id %}"><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ m.title }}"></a>
-                        {% endif %}
-                        <a href="{% url 'movie_detail' m.id %}" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
+                        <div class="movie-poster">
+                            {% if m.poster %}
+                                <a href="{% url 'movie_detail' m.id %}"><img src="{{ m.poster.url }}" alt="{{ m.title }}"></a>
+                            {% else %}
+                                <a href="{% url 'movie_detail' m.id %}"><img src="{% static 'dummy/placeholder.jpg' %}" alt="{{ m.title }}"></a>
+                            {% endif %}
+                        </div>
+                        <div class="movie-card">
+                                                    <a href="{% url 'movie_detail' m.id %}" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
                             <h2 class="centered" >{{ m.name }}</h2>
                             <h4 class="centered" >{{ m.rating }}</h4>
                         </a>
+                        </div>
+
                     </div>
                 </div>
             {% endfor %}
