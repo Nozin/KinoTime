@@ -53,23 +53,30 @@
     </div>
     {% endblock content %}
     {% block reviews %}
-        {% if reviews %}
+        {% if reviews_with_comments %}
             <div class="reviews-container">
-                {% for r in reviews %}
+                {% for item in reviews_with_comments %}
                     <div class="review-card">
                         <div class="review-header">
                             <div class="review-author">
-                                <strong>{{ r.author.user.username }}</strong>
+                                <strong>{{ item.review.author.user.username }}</strong>
                             </div>
                             <div class="review-title">
-                                <h3>{{ r.title }}</h3>
+                                <h3>{{ item.review.title }}</h3>
                             </div>
                             <div class="review-grade">
-                                <h3>{{ r.grade }}</h3>
+                                <h3>{{ item.review.grade }}</h3>
                             </div>
                         </div>
                         <div class="review-body">
-                            <p>{{ r.text }}</p>
+                            <p>{{ item.review.text }}</p>
+                        </div>
+                        <div class="comments-body">>
+                            {% for comment in item.comments %}
+                                <div class="comment-text">
+                                    <h7>{{ comment.text }}</h7>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 {% endfor %}

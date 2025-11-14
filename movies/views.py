@@ -30,9 +30,22 @@ class MovieDetail(DetailView):
     model = Movie
     template_name = 'movie.html'
     context_object_name = 'movie'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['reviews'] = Review.objects.filter(movie=self.object)#self.review_set.all() #Review.objects.order_by('-dataCreation').filter(commentPost_id=self.id)
+
+        # Получаем все отзывы к фильму
+        reviews = Review.objects.filter(movie=self.object)
+
+        # Для каждого отзыва добавляем его комментарии
+        reviews_with_comments = []
+        for review in reviews:
+            review_comments = review.comment_set.all()  # если внешний ключ из Comment -> Review называется comment_set
+            reviews_with_comments.append({
+                'review': review,
+                'comments': review_comments
+            })
+        context['reviews_with_comments'] = reviews_with_comments
         return context
 def movie_subscribe(request, pk):
     movie = get_object_or_404(Movie, pk=pk)

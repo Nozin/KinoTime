@@ -87,6 +87,10 @@ class Review(models.Model):
 class Comment(models.Model):
     def get_deleted_user(self):
         return User.objects.get(username='deleted_user')
+    review = models.ForeignKey(
+        Review,
+        on_delete=models.CASCADE,
+    )
 
     user = models.ForeignKey(
         User,
