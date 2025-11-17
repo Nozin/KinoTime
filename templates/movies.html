@@ -41,9 +41,13 @@
                             {% endif %}
                         </div>
                         <div class="movie-card">
-                                                    <a href="{% url 'movie_detail' m.id %}" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
+                            <a href="{% url 'movie_detail' m.id %}" style="text-align: center;">  <!-- {% url 'movie_detail' m.id %} -->
                             <h2 class="centered" >{{ m.name }}</h2>
-                            <h4 class="centered" >{{ m.rating }}</h4>
+                            {% if m.rating != none %}
+                                <h4 class="centered" >{{ m.rating }}</h4>
+                            {% else %}
+                                <h4 class="centered" >Нет рейтинга</h4>
+                            {% endif %}
                         </a>
                         </div>
 

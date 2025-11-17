@@ -22,6 +22,8 @@
             {% endif %}
             {% if not in_author_group and not is_author_in_model %}
                 <button> <a href="{% url 'become_author' %}"> Стать автором</a> </button>
+            {% else %}
+                <h2 class="centered" >Вы являетесь автором</h2>
             {% endif %}
             {% if user.is_authenticated %}
                 <form action="{% url 'account_logout' %}" method="post">
