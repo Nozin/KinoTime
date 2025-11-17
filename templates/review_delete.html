@@ -1,0 +1,12 @@
+{% extends 'default/default_page.html' %}
+{% block title %}
+{% endblock title %}
+{% block content %}
+<h1>Обзор</h1>
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Удаляем "{{ review.title }}"?</p>
+    <input type="submit" value="Удалить" />
+</form>
+{% endblock content %}

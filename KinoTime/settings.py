@@ -176,8 +176,8 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 
 ACCOUNT_FORMS = {'signup': 'sign.forms.BasicSignupForm'}
 
-# if DEBUG:
-#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env.int('EMAIL_PORT')

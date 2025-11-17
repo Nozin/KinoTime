@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (MovieList, MovieDetail, ReviewList, MovieCreate, MovieUpdate, MovieDelete, movie_subscribe,
-                    movie_unsubscribe, ReviewCreate)
+                    movie_unsubscribe, ReviewCreate, ReviewDelete)
 
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
     path('movie_subscribe/<int:pk>', movie_subscribe, name='movie_subscribe'),
     path('movie_unsubscribe/<int:pk>', movie_unsubscribe, name='movie_unsubscribe'),
     path('create_review/<int:pk>', ReviewCreate.as_view(), name='create_review'),
+    path('delete_review/<int:pk>', ReviewDelete.as_view(), name='delete_review'),
 
 ]

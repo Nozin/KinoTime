@@ -44,10 +44,15 @@ class Movie(models.Model):
     subscribers = models.ManyToManyField(User, through='MovieSubscriber', related_name='subscribed_movies')
     def update_rating(self):
         self.rating=Review.objects.filter(movie=self).aggregate(Sum('grade'))['grade__sum']/Review.objects.filter(movie=self).count()
-        self.save()
+        self.save(notify=False)
         return self.rating
     def get_absolute_url(self):
         return reverse('movie_list')
+    # for not send email when user .save manually
+    def save(self, *args, **kwargs):
+        # если передан флаг notify=False, сигнал не будет срабатывать
+        self._skip_notification = kwargs.pop('notify', False)
+        super().save(*args, **kwargs)
 
 
 class MovieSubscriber(models.Model):

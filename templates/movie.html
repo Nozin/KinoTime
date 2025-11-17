@@ -33,22 +33,25 @@
                 <button type="button">Удалить</button>
             </a>
             {% endif %}
+
             <h2 class="centered" >Год выпуска: {{movie.year|date:'Y'}}</h2>
             <h2 class="centered" >Рейтинг: {{movie.rating}}</h2>
             <h2 class="centered" >{{movie.description|review_censor}}</h2>
-
             {% if user not in movie.subscribers.all %}
-            <form action="{% url 'movie_subscribe' movie.pk %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Подписаться на {{movie.name}}"/>
-            </form>
+                <form action="{% url 'movie_subscribe' movie.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Подписаться на {{movie.name}}"/>
+                </form>
             {% else %}
                 <form action="{% url 'movie_unsubscribe' movie.pk %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" value="Отписаться от {{movie.name}}"/>
                 </form>
             {% endif %}
-
+            <form action="{% url 'create_review' movie.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Написать отзыв"/>
+            </form>
         {% endif %}
     </div>
     {% endblock content %}
@@ -71,6 +74,12 @@
                         <div class="review-body">
                             <p>{{ item.review.text }}</p>
                         </div>
+                        <div class="delete-body">
+                            {% if item.review.author == user.author %}
+                                    <a href="{% url 'delete_review' item.review.pk %}" class="delete-button">Удалить</a>
+                            {% endif %}
+                        </div>
+
                         {% if item.comments %}
                             <div class="comments-container">
                                 {% for comment in item.comments %}

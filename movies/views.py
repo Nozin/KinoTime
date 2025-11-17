@@ -7,6 +7,8 @@ from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.db import transaction
 
 class MovieList(ListView):
     model = Movie
@@ -108,9 +110,43 @@ class ReviewCreate(PermissionRequiredMixin, CreateView):
     form_class = ReviewForm
     template_name = 'review_create.html'
     def form_valid(self, form):
-        review = form.save(commit=False)
-        review.author = Author.objects.get(user=self.request.user)
-        review.movie = Movie.objects.get(pk=self.kwargs['pk'])
+        with transaction.atomic():# safe transaction (if something gone wrong, it will be canceled)
+            review = form.save(commit=False)
+            review.author = Author.objects.get(user=self.request.user)
+            review.movie = Movie.objects.get(pk=self.kwargs['pk'])
+            review.save()
+
+            review.movie.update_rating()
+
         return super().form_valid(form)
     def get_success_url(self):
         return reverse_lazy('movie_detail', kwargs={'pk': self.kwargs['pk']})
+
+
+class ReviewDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = (
+        'movies.view_review',
+        'movies.delete_review',
+    )
+    raise_exception = True
+    model = Review
+    template_name = 'review_delete.html'
+    context_object_name = 'review'
+
+    def post(self, request, *args, **kwargs):
+        review = self.get_object()
+        movie = review.movie
+        with transaction.atomic(): # safe operation with bd
+            response = super().post(request, *args, **kwargs)  # это вызовет delete
+            movie.update_rating()
+        return response
+
+    def get_object(self, queryset=None):
+        review = super().get_object(queryset)
+        if review.author != Author.objects.get(user=self.request.user):
+            raise PermissionDenied
+        return review
+    def get_success_url(self):
+        review = self.get_object() #onject for get movie pk
+        movie_pk = review.movie.pk  #get movie pk
+        return reverse_lazy('movie_detail', kwargs={'pk': movie_pk})

@@ -7,6 +7,8 @@ from django.conf import settings
 # send mail to managers when create or update movie
 @receiver(post_save, sender=Movie)
 def movie_add_notify(sender, instance, created, **kwargs):
+    if getattr(instance, '_skip_notification', False):
+        return  # игнорируем это сохранение
     if created:
         subject=f'Добавление фильма {instance.name}'
     else:
