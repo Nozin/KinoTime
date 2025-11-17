@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 class MovieForm(forms.ModelForm):
     description = forms.CharField(min_length=5)
     name = forms.CharField(min_length=2)
+    year = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     class Meta:
         model = Movie
         fields = [
