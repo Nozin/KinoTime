@@ -4,13 +4,13 @@ from django.core.mail import mail_managers, send_mail
 from .models import Movie
 from django.conf import settings
 
+# send mail to managers when create or update movie
 @receiver(post_save, sender=Movie)
 def movie_add_notify(sender, instance, created, **kwargs):
-    subject=f'Добавление фильма {instance.name}'
-    # mail_managers(
-    #     subject=subject,
-    #     message=instance.description,
-    # )
+    if created:
+        subject=f'Добавление фильма {instance.name}'
+    else:
+        subject = f'Внесение изменений в {instance.name}'
     send_mail(
         subject=subject,
         message=instance.description,
