@@ -48,6 +48,7 @@ class MovieDetail(DetailView):
                 'comments': review_comments
             })
         context['reviews_with_comments'] = reviews_with_comments
+        context['can_make_review'] = not bool(Review.objects.filter(movie=self.object, author=self.request.user.author).count())
         return context
 def movie_subscribe(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
@@ -112,8 +113,16 @@ class ReviewCreate(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         with transaction.atomic():# safe transaction (if something gone wrong, it will be canceled)
             review = form.save(commit=False)
-            review.author = Author.objects.get(user=self.request.user)
-            review.movie = Movie.objects.get(pk=self.kwargs['pk'])
+            movie = Movie.objects.get(pk=self.kwargs['pk'])
+            author = Author.objects.get(user=self.request.user)
+
+            # 1 author can make ony 1 review for movie
+            if Review.objects.filter(movie=movie, author=author).count() > 0:
+                form.add_error(None, "Вы не можете добавить больше 5 отзывов.")
+                return self.form_invalid(form)
+
+            review.author = author
+            review.movie = movie
             review.save()
 
             review.movie.update_rating()

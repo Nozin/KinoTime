@@ -3,6 +3,7 @@
 {% extends 'default/default_page.html' %}
 {% load static %}
 {% load custom_filters %}
+{% load custom_tags %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -48,10 +49,15 @@
                     <input type="submit" value="Отписаться от {{movie.name}}"/>
                 </form>
             {% endif %}
-            <form action="{% url 'create_review' movie.pk %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Написать отзыв"/>
-            </form>
+
+            {% can_user_create_review movie as can_review %}
+            {% if can_review %}
+                <form action="{% url 'create_review' movie.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Написать отзыв "/>
+                </form>
+            {% endif %}
+
         {% endif %}
     </div>
     {% endblock content %}
