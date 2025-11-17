@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Movie, Review
+from .models import Movie, Review, Author
 from .filters import MovieFilter
-from .forms import MovieForm
+from .forms import MovieForm, ReviewForm
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -97,3 +97,20 @@ class ReviewList(ListView):
     ordering = 'time_in'
     template_name = 'reviews.html'
     context_object_name = 'reviews'
+
+class ReviewCreate(PermissionRequiredMixin, CreateView):
+    permission_required = (
+        'movies.view_review',
+        'movies.add_review',
+    )
+    raise_exception = True
+    model = Review
+    form_class = ReviewForm
+    template_name = 'review_create.html'
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.author = Author.objects.get(user=self.request.user)
+        review.movie = Movie.objects.get(pk=self.kwargs['pk'])
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy('movie_detail', kwargs={'pk': self.kwargs['pk']})
