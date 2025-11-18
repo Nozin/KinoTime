@@ -36,7 +36,7 @@
             {% endif %}
 
             <h2 class="centered" >Год выпуска: {{movie.year|date:'Y'}}</h2>
-            <h2 class="centered" >Рейтинг: {{movie.rating}}</h2>
+            <h2 class="centered" >Рейтинг: {{movie.rating|floatformat:1}}</h2>
             <h2 class="centered" >{{movie.description|review_censor}}</h2>
             {% if user not in movie.subscribers.all %}
                 <form action="{% url 'movie_subscribe' movie.pk %}" method="POST">
@@ -74,7 +74,7 @@
                                 <h3>{{ item.review.title }}</h3>
                             </div>
                             <div class="review-grade">
-                                <span>Рейтинг: {{ item.review.grade }}/10</span>
+                                <span>Рейтинг: {{ item.review.grade|floatformat:1 }}/10</span>
                             </div>
                         </div>
                         <div class="review-body">

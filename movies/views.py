@@ -118,7 +118,7 @@ class ReviewCreate(PermissionRequiredMixin, CreateView):
 
             # 1 author can make ony 1 review for movie
             if Review.objects.filter(movie=movie, author=author).count() > 0:
-                form.add_error(None, "Вы не можете добавить больше 5 отзывов.")
+                form.add_error(None, "Вы не можете добавить больше 1 отзыва.")
                 return self.form_invalid(form)
 
             review.author = author
