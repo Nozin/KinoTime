@@ -23,12 +23,13 @@ def movie_add_notify(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Review)
 def review_add_notify(sender, instance, created, **kwargs):
-    subs = instance.movie.subscribers.all()
-    emails = list(subs.values_list('email', flat=True))
-    subject = f'Добавление отзыва к фильму {instance.movie.name}'
-    send_mail(
-        subject=subject,
-        message=instance.title,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=emails,
-    )
+    if created:
+        subs = instance.movie.subscribers.all()
+        emails = list(subs.values_list('email', flat=True))
+        subject = f'Добавление отзыва к фильму {instance.movie.name}'
+        send_mail(
+            subject=subject,
+            message=instance.title,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=emails,
+        )
